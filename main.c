@@ -257,3 +257,7 @@ int main(int argc, char** argv){
     // printf("%d\n",sts);
     return 0;
 }
+//tests:
+    //./ls stuff testdir bnuwcbeuri testfile testdir2 main.c -breaks: trys to display unknown file like a directory
+    //./ls testdir testdir2 main.c stuff wweeffewrwg testfile -breaks: displays unknown files like regular files
+    //./ls stuff niuner hwberffyibewrig testdir testdir2 main.c testfile: works
