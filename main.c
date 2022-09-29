@@ -16,6 +16,56 @@ typedef struct s_entryList{
 }entryList;
 #endif
 
+void getFlags(char** argv, int* instruction, int* startingIndex, int ac){
+    bool aFlag = false;
+    bool tFlag = false;
+    bool done = false;
+    int index = 1;
+    while(done == false){
+        char currentArg = argv[index][1];
+        switch(currentArg){
+            case 'a':
+            {
+                aFlag = true;
+                if(argv[index][2] == 't'){
+                    tFlag = true;
+                    done = true;
+                }
+                break;
+            }
+            case 't':{
+                tFlag = true;
+                if(argv[index][2] == 'a'){
+                    aFlag = true;
+                    done = true;
+                }
+                break;
+            }
+            default:
+            {
+                printf("ls: %c: No such file or directory\n",currentArg);
+                break;
+            }
+        }
+        if(argv[index + 1]== NULL || argv[index + 1][0] != '-' ){
+            break;
+        }
+        index++;
+    }
+    *startingIndex = index + 1;// plus one to leave out fd (argv[0])
+
+    if(aFlag == true && tFlag  == true){
+        *instruction = 0;
+    }else if(aFlag == true && tFlag  == false){
+        *instruction = 1;
+    }else if(aFlag == false && tFlag  == true){
+        *instruction = 2;
+    }else{//invalid flag input, flag should always exist if this function is called
+        *instruction = 3;
+    }
+}
+
+
 int my_strcmp(char* str1, char* str2){
 int index = 0;
 while(str1[index]){
@@ -43,7 +93,7 @@ int countEntries(entryList* head){
 }
 
 entryList* createNodeEnt(struct stat* sb, char* path){
-    entryList* newNode = malloc(sizeof(entryList*));
+    entryList* newNode = malloc(sizeof(entryList));
     newNode->sb = sb;
     newNode->path = path;
     newNode->next = NULL;
@@ -85,41 +135,45 @@ entryList* lexSort(entryList* head){
     return nextInLine; 
 }
 
-entryList* getFiles(char** files, int ac){
-    entryList* enLis = malloc(sizeof(entryList*));
+entryList* getFiles(char** files, int ac, int startingIndex){
+    entryList* enLis;
+    entryList* enLisCpy;
+    entryList* newNode;
+
     struct stat* statBuff = malloc(sizeof(struct stat));
-    entryList* enLisCpy = NULL;
+
     int ENCount = 0;
-
-    int index = 1;
-    while(index < ac){
-
-        char* path = files[index];
+    while(startingIndex < ac){
+        char* path = files[startingIndex];
         stat(path, statBuff);
         DIR* dir = opendir(path);
         if(S_ISDIR(statBuff->st_mode) && dir != NULL){//checks if current input is a directory or file
             closedir(dir);          
             if(ENCount == 0){//find a way not to do this everytime?
                 ENCount++;
-                enLis = createNodeEnt(statBuff,path);
-                enLisCpy = enLis;
+                newNode = createNodeEnt(statBuff,path);
+                enLis = newNode;
+                enLisCpy = newNode;
             }else{
-                enLis->next = createNodeEnt(statBuff,path);
+                newNode = createNodeEnt(statBuff,path);
+                enLis->next = newNode;
                 enLis = enLis->next;   
             }
         }else if(S_ISREG(statBuff->st_mode)){
             if(ENCount == 0){//find a way not to do this everytime?
                 ENCount++;
-                enLis = createNodeEnt(statBuff,path);
-                enLisCpy = enLis;
+                newNode = createNodeEnt(statBuff,path);
+                enLis = newNode;
+                enLisCpy = newNode;
             }else{
-                enLis->next = createNodeEnt(statBuff,path);
+                newNode = createNodeEnt(statBuff,path);
+                enLis->next = newNode;
                 enLis = enLis->next;   
             }
         }else{//current input is an unknown (non existing) entry
             printf("ls: %s: No such file or directory\n",path);
         }
-        index++;
+        startingIndex++;
     }
     free(statBuff);
     free(enLis);
@@ -127,7 +181,7 @@ entryList* getFiles(char** files, int ac){
 }
 
 entryList* newSortedList(entryList* enLis){
-    entryList* sortedList = malloc(sizeof(entryList*));
+    entryList* sortedList = malloc(sizeof(entryList));
     entryList* sortedListCpy = NULL;
     entryList* nextInLine = NULL;
     entryList* newNode = NULL;
@@ -165,23 +219,21 @@ int readInput(int ac, ...){
     va_start(ap,ac);
     
     char** argv = va_arg(ap,char**);
-    bool flags = true;
-    bool files = true;
-
-    int index = 1;
-    while(index < ac){
-        if(argv[1][0] != '-'){//no flags, but files
-            flags = false;
-            entryList* unorderedList = getFiles(argv,ac);
-            // writeFiles(unorderedList);
-            entryList* sortedList = newSortedList(unorderedList);
-            // printf("%d\n",countEntries(sortedList));
-            writeFiles(sortedList);
-            break;
-        }else{//flags, and possibly files
-
-        }
-        index++;
+    int startingIndex;
+    if(argv[1][0] != '-'){//no flags, but files
+        startingIndex = 1;
+        entryList* unorderedList = getFiles(argv,ac,startingIndex);
+        // writeFiles(unorderedList);
+        // entryList* sortedList = newSortedList(unorderedList);
+        // printf("%d\n",countEntries(sortedList));
+        // writeFiles(sortedList);
+    }else{//flags, and possibly files
+        int instruction;
+        getFlags(argv, &instruction, &startingIndex, ac);
+        entryList* unorderedList = getFiles(argv,ac,startingIndex);
+        entryList* sortedList = newSortedList(unorderedList);
+        writeFiles(sortedList);
+        // writeFiles(unorderedList);
     }
     va_end(ap);
     return 0;
