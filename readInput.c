@@ -3,7 +3,6 @@
 int readInput(int ac, ...){
     va_list ap;
     va_start(ap,ac);
-    
     char** argv = va_arg(ap,char**);
     int startingIndex;
     entryList* sortedList;

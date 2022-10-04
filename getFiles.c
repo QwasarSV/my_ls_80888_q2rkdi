@@ -1,7 +1,7 @@
 #include "my_ls.h"
 
 entryList* getFiles(char** files, int ac, int startingIndex){
-    entryList* enLis;
+    entryList* enLis = malloc(sizeof(entryList));
     entryList* enLisCpy;
     entryList* newNode;
 
@@ -28,6 +28,7 @@ entryList* getFiles(char** files, int ac, int startingIndex){
         startingIndex++;
     }
     free(statBuff);
-    free(enLis);
+    
+    // free(enLis);
     return enLisCpy;
 }
