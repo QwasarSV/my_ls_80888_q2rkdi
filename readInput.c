@@ -20,7 +20,7 @@ int readInput(int ac, ...){
             entryList* unorderedList = getFiles(argv,ac,startingIndex);
             if(instruction == 0 || instruction == 2){
                 sortedList = timeSortedList(unorderedList);
-                writeFiles(sortedList,instruction);
+                writeFiles(sortedList, instruction);
                 // writeFiles(sortedList,instruction, countEntries(sortedList));
             }else{
                 sortedList = lexSortedList(unorderedList);

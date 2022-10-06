@@ -1,5 +1,9 @@
 #include "my_ls.h"
 
+/*
+ QUINNNNTONNNNNNNNNN
+*/
+
 int my_strcmp(char* str1, char* str2){
 int index = 0;
 while(str1[index]){

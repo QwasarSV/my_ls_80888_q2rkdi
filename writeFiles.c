@@ -1,6 +1,15 @@
 #include "my_ls.h"
 #include <string.h>
 
+bool ends_with(char *str, char c) {
+    int endex = strlen(str) - 1;
+
+    if (endex >= 0) {
+        return str[endex] == c;
+    }
+    return false;
+}
+
 entryList* build_list(char* dir_path){
     entryList* enLis = malloc(sizeof(entryList));
     entryList* head = NULL;
@@ -12,7 +21,12 @@ entryList* build_list(char* dir_path){
     while((entry = readdir(dir)) != NULL) {
         char fullpath[255] = { '\0' };
 
-        strcpy(fullpath, dir_path);
+        if (strcmp(".", dir_path) != 0) {
+            strcpy(fullpath, dir_path);
+        }
+        if (ends_with(dir_path, '/') == false) {
+            strcat(fullpath, "/");
+        }
         strcat(fullpath, entry->d_name);
 
         struct stat* statBuff = malloc(sizeof(struct stat));
@@ -63,7 +77,6 @@ void writeDir2(entryList* head, int instruction) {
         char* path = list->path;
         stat(path, statBuff);
         if(S_ISDIR(statBuff->st_mode)){
-
             if (head->next != NULL) {
                 printf("%s:\n",list->path);
             }
@@ -75,6 +88,7 @@ void writeDir2(entryList* head, int instruction) {
             else {
                 current_files = lexSortedList(current_files);
             }
+
             writeCurrDir(current_files, instruction);
         }
         list = list->next;
