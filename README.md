@@ -27,16 +27,14 @@ The bulk of the work is done by 4 functions: readInnput.c, getFiles.c, getFlags.
     -getFiles.c:
         -this funciton is called to retrieve all files/directories that were specified by the user in the command line, while also printing out to the screen non-existing files
             the user may have inputted
-        -this funciton returns an unsorted list which will be sorted in the readInput.c funciton depending on what flags were present
-    -writeFiles.c:
-        -as mentioned before, this funciton prints a sorted list to the console, and frees up remaining memory that was in use
+        -this funciton returns an unsorted list which will be sorted in the readInpu
                 
-The names of the files were saved, accessed modified and stored using singly linked lists. All memory is freed at the termination of the program. 
+
 ## Installation
-N/A
+TODO - How to install your project? npm install? make? make re?
 
 ## Usage
-N/A
+TODO - How does it work?
 ```
 ./my_project argument1 argument2
 ```
