@@ -11,20 +11,23 @@ int readInput(int ac, ...){
         instruction = 3;
         startingIndex = 1;
         entryList* unorderedList = getFiles(argv,ac,startingIndex);
+        printf("hello\n");
         sortedList = lexSortedList(unorderedList);
         // writeFiles(sortedList, instruction, countEntries(sortedList));
         writeFiles(sortedList,instruction);
     }else{//flags, and possibly files
         getFlags(argv, &instruction, &startingIndex);
-        entryList* unorderedList = getFiles(argv,ac,startingIndex);
-        if(instruction == 0 || instruction == 2){
-            sortedList = timeSortedList(unorderedList);
-            writeFiles(sortedList,instruction);
-            // writeFiles(sortedList,instruction, countEntries(sortedList));
-        }else{
-            sortedList = lexSortedList(unorderedList);
-            writeFiles(sortedList,instruction);
-            // writeFiles(sortedList, instruction, countEntries(sortedList));
+        if(instruction != 4){
+            entryList* unorderedList = getFiles(argv,ac,startingIndex);
+            if(instruction == 0 || instruction == 2){
+                sortedList = timeSortedList(unorderedList);
+                writeFiles(sortedList,instruction);
+                // writeFiles(sortedList,instruction, countEntries(sortedList));
+            }else{
+                sortedList = lexSortedList(unorderedList);
+                writeFiles(sortedList,instruction);
+                // writeFiles(sortedList, instruction, countEntries(sortedList));
+            }
         }
     }
     va_end(ap);
