@@ -11,7 +11,6 @@ int readInput(int ac, ...){
         instruction = 3;
         startingIndex = 1;
         entryList* unorderedList = getFiles(argv,ac,startingIndex);
-        printf("hello\n");
         sortedList = lexSortedList(unorderedList);
         // writeFiles(sortedList, instruction, countEntries(sortedList));
         writeFiles(sortedList,instruction);
