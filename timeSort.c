@@ -1,19 +1,28 @@
 #include "my_ls.h"
+#include <string.h>
+
+
+#ifdef __APPLE__
+# define MTIME st_mtimespec
+#else
+# define MTIME st_mtim
+#endif
+
 entryList* timeSort(entryList* list){
     entryList* nextInLine = list;
 
     list = list->next;
 
     while(list != NULL){
-        if(list->sb->st_mtim.tv_sec > nextInLine->sb->st_mtim.tv_sec){
+        if(list->sb->MTIME.tv_sec > nextInLine->sb->MTIME.tv_sec){
             nextInLine = list;
         }
-        else if (list->sb->st_mtim.tv_sec == nextInLine->sb->st_mtim.tv_sec) {
-            if (list->sb->st_mtim.tv_nsec > nextInLine->sb->st_mtim.tv_nsec) {
+        else if (list->sb->MTIME.tv_sec == nextInLine->sb->MTIME.tv_sec) {
+            if (list->sb->MTIME.tv_nsec > nextInLine->sb->MTIME.tv_nsec) {
                 nextInLine = list;
             }
-            else if (list->sb->st_mtim.tv_nsec == nextInLine->sb->st_mtim.tv_nsec) {
-                if(my_strcmp(list->path, nextInLine->path) < 0) {
+            else if (list->sb->MTIME.tv_nsec == nextInLine->sb->MTIME.tv_nsec) {
+                if(strcmp(list->path, nextInLine->path) < 0) {
                     nextInLine = list;
                 }
             }
