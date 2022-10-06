@@ -1,10 +1,15 @@
 #include "my_ls.h"
 
-void writeCurrDir(entryList* lexSortedList_){
-    entryList* lexSortedList_Cpy = lexSortedList_;
-    while(lexSortedList_!= NULL){
-        printf("%s\n",lexSortedList_->path);
-        lexSortedList_ = lexSortedList_->next;
+void writeCurrDir(entryList* sortedList_, int instruction){
+    entryList* sortedList_Cpy = sortedList_;
+    if(instruction){};
+    while(sortedList_!= NULL){
+        if(instruction == 0 && sortedList_->path[0] == '.'){
+            sortedList_ = sortedList_->next;
+        }else{
+        printf("%s\n",sortedList_->path);
+        sortedList_ = sortedList_->next;
+        }
     }
-    cleanUp(lexSortedList_Cpy);
+    cleanUp(sortedList_Cpy);
 }

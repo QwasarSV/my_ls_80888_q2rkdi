@@ -37,8 +37,23 @@ void getFlags(char** argv, int* instruction, int* startingIndex){
         index++;
     }
     *startingIndex = index + 1;// plus one to leave out fd (argv[0])
-
-    if(aFlag == true && tFlag  == true){
+///////////////////////////////////////////////////////////////////////////////////////////////////
+    if(argv[index + 1]== NULL){// rough patch to account for if flags entered, but no files given
+        entryList* currDir = readCurrDir();
+        if(aFlag == true && tFlag  == true){
+            entryList* timeSortedList_ = timeSortedList(currDir);
+            writeCurrDir(timeSortedList_,0);
+        }else if(aFlag == true && tFlag  == false){
+            entryList* lexSortedList_ = lexSortedList(currDir);
+            writeCurrDir(lexSortedList_,0);
+        }else if(aFlag == false && tFlag  == true){
+            entryList* timeSortedList_ = timeSortedList(currDir);
+            writeCurrDir(timeSortedList_,1);
+        }
+        *instruction = 4;
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+    else if(aFlag == true && tFlag  == true){
         *instruction = 0;
     }else if(aFlag == true && tFlag  == false){
         *instruction = 1;

@@ -29,6 +29,6 @@ void getFlags(char** argv, int* instruction, int* startingIndex);
 entryList* timeSort(entryList* head);
 entryList* timeSortedList(entryList* enLis);
 entryList* readCurrDir();
-void writeCurrDir(entryList* lexSortedList_);
+void writeCurrDir(entryList* sortedList_, int instruction);
 void cleanUp(entryList* finalList);
 #endif
