@@ -28,18 +28,7 @@ The bulk of the work is done by 4 functions: readInnput.c, getFiles.c, getFlags.
         -this funciton is called to retrieve all files/directories that were specified by the user in the command line, while also printing out to the screen non-existing files
             the user may have inputted
         -this funciton returns an unsorted list which will be sorted in the readInpu
-                
-
-## Installation
-TODO - How to install your project? npm install? make? make re?
-
-## Usage
-TODO - How does it work?
-```
-./my_project argument1 argument2
-```
-
-### The Core Team
+        
 
 
 <span><i>Made at <a href='https://qwasar.io'>Qwasar Silicon Valley</a></i></span>
