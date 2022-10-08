@@ -28,7 +28,7 @@ The bulk of the work is done by 4 functions: readInnput.c, getFiles.c, getFlags.
     -getFiles.c:
         -this funciton is called to retrieve all files/directories that were specified by the user in the command line, while also printing out to the screen non-existing files
             the user may have inputted
-        -this funciton returns an unsorted list which will be sorted in the readInpu
+        -this funciton returns an unsorted list which will be sorted in the readInput function
         
 
 
