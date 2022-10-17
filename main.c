@@ -19,7 +19,7 @@ int main(int argc, char** argv){
             }else{
                 insertionSort(&list, lex_cmp);
             }
-            printFiles(list, flags);//may not be able to make this assumption (all directories)
+            printFiles(list, flags);
         }
     }
     return 0;
