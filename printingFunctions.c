@@ -82,14 +82,13 @@ void printDirectories(file_list* directories, int flags, bool are_files){
 void printFiles(file_list* files, int flags){
     file_list* directories = NULL;
     file_list* prev = NULL;
-    bool are_files = false; //to know if a space should be placed before printing
+    bool are_files = false;
     size_t size = 0;
     file_list* head = NULL;
     int index = 0;
     int length = files->size;
     while(index < length ){
         if(S_ISDIR(files->sb->st_mode)){
-            // printf("%s\n",files->pathname);
             size++;
             if(head == NULL){
                 directories = create_node(files->pathname, files->sb, size, prev);
