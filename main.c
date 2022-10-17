@@ -1,19 +1,26 @@
 #include "my_ls.h"
+
 int main(int argc, char** argv){
-    if(argc == 1){//no arguments
-        entryList* currDir = readCurrDir();
-        entryList* lexSortedList_ = lexSortedList(currDir);
-        writeCurrDir(lexSortedList_,1);
-    }else{//arguments present, unclear whether flags, files, or both are present in the arguments, need to parse
-        readInput(argc,argv);
+    int index = 1;
+    if(argc == 1){  
+        file_list* curr_dir = make_curr_direc();
+        printDirectories(curr_dir,0,false);
+    }
+    else{
+        int flags = getFlags(argc, argv,&index);
+        file_list* list  = make_lists(argc, argv,index,&flags);
+        if(list == NULL){//flags but no specified files/directories
+            file_list* curr_dir = make_curr_direc();
+
+            printFiles(curr_dir,flags);
+        }else{
+            if(flags & TIME_SORT){
+                insertionSort(&list, time_cmp);
+            }else{
+                insertionSort(&list, lex_cmp);
+            }
+            printFiles(list, flags);//may not be able to make this assumption (all directories)
+        }
     }
     return 0;
 }
-//tests:
-    //./ls stuff testdir bnuwcbeuri testfile testdir2 main.c -breaks: trys to display unknown file like a directory
-    //./ls testdir testdir2 main.c stuff wweeffewrwg testfile -breaks: displays unknown files like regular files
-    //./ls stuff niuner hwberffyibewrig testdir testdir2 main.c testfile: works
-
-    //      char* fileName;
-    //      struct stat* sb = malloc(sizeof(struct stat));
-    //      stat(fileName,sb);
