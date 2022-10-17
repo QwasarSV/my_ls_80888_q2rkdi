@@ -17,6 +17,11 @@ After the unsorted list of files/directories is created, the list is passed to t
 ## Future Improvements
 The first improvements to this project I plan to make is to reduce the code size of the printFiles and printDirectories functions, or at least to split them into more helper functions, to increase the readability of the code. The size of make_lists could also be reduced. Besides getting rid of repetitive and unnecessary code, to make the program more efficient, I could use insertion sort to sort the linked lists as they are created. 
 
+## Installation
+The libraries that were used in this project are :stdio.h, stdlib.h, string.h, unistd.h, sys/stat.h, dirent.h, stdbool.h.
+
+## Usage
+This project is optimal for usage in personal projects where file systems are relatively small.
 
 <span><i>Made at <a href='https://qwasar.io'>Qwasar Silicon Valley</a></i></span>
 <span><img alt='Qwasar Silicon Valley Logo' src='https://storage.googleapis.com/qwasar-public/qwasar-logo_50x50.png' width='20px'></span>
